@@ -1,0 +1,50 @@
+<section class="max-w-3xl mx-auto p-4 font-sans">
+    <div class="text-center mb-6 bg-primary rounded-md py-3 shadow-md hover:bg-blue-700 transition-colors duration-300 transform hover:translate-y-[-2px] hover:shadow-lg cursor-pointer" onclick="window.location.href='/'">
+        <a class="text-white no-underline transition-colors duration-300 inline-block hover:text-gray-100">กลับหน้าหลัก</a>
+    </div>
+    <h1 class="text-2xl text-center text-gray-800 mb-6">เป้าหมายในปี 2025 นี้คือ</h1>
+    <div class="bg-gray-50 rounded-md p-6 shadow-md">
+        <ul class="list-none pl-0 text-secondary">
+            <li class="list-item-custom leading-relaxed">สามารถทำงานที่ได้รับมอบหมายมาได้โดยที่เข้าใจ flow และปัญหาได้จากการอธิบายเพียงครั้งเดียว</li>
+            <li class="list-item-custom leading-relaxed">อธิบาย workflow และ concept ของ blocktrade ได้ครบ</li>
+            <li class="list-item-custom leading-relaxed">ทำ TDD และเข้าใจทุก process จนสามารถสอนคนอื่นได้</li>
+            <li class="list-item-custom leading-relaxed">ทำโปรเจค full-stack product 1 งาน (อาจจะเป็น utilities app ซักอัน) ที่สามารถให้ dev มาใช้</li>
+            <li class="list-item-custom leading-relaxed">เรียนภาษาที่ 2 และ 3 ในระดับ intermediate </li>
+            <li class="list-item-custom leading-relaxed">เป็นคนที่ทุกๆคนไว้วางใจให้ทำงานและมาปรึกษา 🧑‍💻</li>
+        </ul>
+        <%# <p class="mt-6 pt-4 border-t text-gray-600 italic">*** เนื่องจากผมจะเจออะไรใหม่ๆ ภายในปีนี้แน่ๆ เดี๋ยวผมมาเติมให้แบบรัวๆ เลย</p> %>
+    </div>
+</section>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&family=Prompt:wght@400;700&display=swap');
+
+    .font-sans {
+        font-family: 'Kanit', 'Prompt', sans-serif;
+    }
+
+    .list-item-custom {
+        margin-bottom: 1rem; /* Equivalent to mb-4 */
+        padding-left: 1.5rem; /* Equivalent to pl-6 */
+        position: relative;   /* Equivalent to relative */
+    }
+
+    .list-item-custom::before {
+        content: '•';
+        color: #3B82F6;      /* Equivalent to text-blue-500 */
+        font-weight: 700;     /* Equivalent to font-bold */
+        position: absolute;   /* Equivalent to absolute */
+        left: 0;              /* Equivalent to left-0 */
+    }
+
+    @media (max-width: 600px) {
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+        .p-6 {
+            padding: 1rem;
+        }
+        .leading-relaxed { /* This rule will still apply to list-item-custom if it also has leading-relaxed class */
+            font-size: 0.9rem;
+        }
+    }
+</style>

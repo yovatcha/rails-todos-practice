@@ -10,185 +10,190 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __moduleCache = /* @__PURE__ */ new WeakMap;
 var __toCommonJS = (from) => {
-  var entry = __moduleCache.get(from), desc;
-  if (entry)
+    var entry = __moduleCache.get(from),
+        desc;
+    if (entry)
+        return entry;
+    entry = __defProp({}, "__esModule", { value: true });
+    if (from && typeof from === "object" || typeof from === "function")
+        __getOwnPropNames(from).map((key) => !__hasOwnProp.call(entry, key) && __defProp(entry, key, {
+            get: () => from[key],
+            enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+        }));
+    __moduleCache.set(from, entry);
     return entry;
-  entry = __defProp({}, "__esModule", { value: true });
-  if (from && typeof from === "object" || typeof from === "function")
-    __getOwnPropNames(from).map((key) => !__hasOwnProp.call(entry, key) && __defProp(entry, key, {
-      get: () => from[key],
-      enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
-    }));
-  __moduleCache.set(from, entry);
-  return entry;
 };
 var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, {
-      get: all[name],
-      enumerable: true,
-      configurable: true,
-      set: (newValue) => all[name] = () => newValue
-    });
+    for (var name in all)
+        __defProp(target, name, {
+            get: all[name],
+            enumerable: true,
+            configurable: true,
+            set: (newValue) => all[name] = () => newValue
+        });
 };
 
 // packages/daisyui/index.js
 var exports_daisyui = {};
 __export(exports_daisyui, {
-  default: () => daisyui_default
+    default: () => daisyui_default
 });
 module.exports = __toCommonJS(exports_daisyui);
 
 // packages/daisyui/functions/themeOrder.js
 var themeOrder_default = [
-  "light",
-  "dark",
-  "cupcake",
-  "bumblebee",
-  "emerald",
-  "corporate",
-  "synthwave",
-  "retro",
-  "cyberpunk",
-  "valentine",
-  "halloween",
-  "garden",
-  "forest",
-  "aqua",
-  "lofi",
-  "pastel",
-  "fantasy",
-  "wireframe",
-  "black",
-  "luxury",
-  "dracula",
-  "cmyk",
-  "autumn",
-  "business",
-  "acid",
-  "lemonade",
-  "night",
-  "coffee",
-  "winter",
-  "dim",
-  "nord",
-  "sunset",
-  "caramellatte",
-  "abyss",
-  "silk"
+    "light",
+    "dark",
+    "cupcake",
+    "bumblebee",
+    "emerald",
+    "corporate",
+    "synthwave",
+    "retro",
+    "cyberpunk",
+    "valentine",
+    "halloween",
+    "garden",
+    "forest",
+    "aqua",
+    "lofi",
+    "pastel",
+    "fantasy",
+    "wireframe",
+    "black",
+    "luxury",
+    "dracula",
+    "cmyk",
+    "autumn",
+    "business",
+    "acid",
+    "lemonade",
+    "night",
+    "coffee",
+    "winter",
+    "dim",
+    "nord",
+    "sunset",
+    "caramellatte",
+    "abyss",
+    "silk"
 ];
 
 // packages/daisyui/functions/pluginOptionsHandler.js
 var pluginOptionsHandler = (() => {
-  let firstRun = true;
-  return (options, addBase, themesObject, packageVersion) => {
-    const {
-      logs = true,
-      root = ":root",
-      themes = ["light --default", "dark --prefersdark"],
-      include,
-      exclude,
-      prefix = ""
-    } = options || {};
-    if (logs !== false && firstRun) {
-      console.log(`${atob("Lyoh")} ${decodeURIComponent("%F0%9F%8C%BC")} ${atob("ZGFpc3lVSQ==")} ${packageVersion} ${atob("Ki8=")}`);
-      firstRun = false;
-    }
-    const applyTheme = (themeName, flags) => {
-      const theme = themesObject[themeName];
-      if (theme) {
-        let selector = `${root}:has(input.theme-controller[value=${themeName}]:checked),[data-theme=${themeName}]`;
-        if (flags.includes("--default")) {
-          selector = `:where(${root}),${selector}`;
+    let firstRun = true;
+    return (options, addBase, themesObject, packageVersion) => {
+        const {
+            logs = true,
+                root = ":root",
+                themes = ["light --default", "dark --prefersdark"],
+                include,
+                exclude,
+                prefix = ""
+        } = options || {};
+        if (logs !== false && firstRun) {
+            console.log(`${atob("Lyoh")} ${decodeURIComponent("%F0%9F%8C%BC")} ${atob("ZGFpc3lVSQ==")} ${packageVersion} ${atob("Ki8=")}`);
+            firstRun = false;
         }
-        addBase({ [selector]: theme });
-        if (flags.includes("--prefersdark")) {
-          addBase({ "@media (prefers-color-scheme: dark)": { [root]: theme } });
+        const applyTheme = (themeName, flags) => {
+            const theme = themesObject[themeName];
+            if (theme) {
+                let selector = `${root}:has(input.theme-controller[value=${themeName}]:checked),[data-theme=${themeName}]`;
+                if (flags.includes("--default")) {
+                    selector = `:where(${root}),${selector}`;
+                }
+                addBase({
+                    [selector]: theme });
+                if (flags.includes("--prefersdark")) {
+                    addBase({ "@media (prefers-color-scheme: dark)": {
+                            [root]: theme } });
+                }
+            }
+        };
+        if (themes === "all") {
+            if (themesObject["light"]) {
+                applyTheme("light", ["--default"]);
+            }
+            if (themesObject["dark"]) {
+                addBase({ "@media (prefers-color-scheme: dark)": {
+                        [root]: themesObject["dark"] } });
+            }
+            themeOrder_default.forEach((themeName) => {
+                if (themesObject[themeName]) {
+                    applyTheme(themeName, []);
+                }
+            });
+        } else if (themes) {
+            const themeArray = Array.isArray(themes) ? themes : [themes];
+            if (themeArray.length === 1 && themeArray[0].includes("--default")) {
+                const [themeName, ...flags] = themeArray[0].split(" ");
+                applyTheme(themeName, flags);
+                return { include, exclude, prefix };
+            }
+            themeArray.forEach((themeOption) => {
+                const [themeName, ...flags] = themeOption.split(" ");
+                if (flags.includes("--default")) {
+                    applyTheme(themeName, ["--default"]);
+                }
+            });
+            themeArray.forEach((themeOption) => {
+                const [themeName, ...flags] = themeOption.split(" ");
+                if (flags.includes("--prefersdark")) {
+                    addBase({ "@media (prefers-color-scheme: dark)": {
+                            [root]: themesObject[themeName] } });
+                }
+            });
+            themeArray.forEach((themeOption) => {
+                const [themeName] = themeOption.split(" ");
+                applyTheme(themeName, []);
+            });
         }
-      }
-    };
-    if (themes === "all") {
-      if (themesObject["light"]) {
-        applyTheme("light", ["--default"]);
-      }
-      if (themesObject["dark"]) {
-        addBase({ "@media (prefers-color-scheme: dark)": { [root]: themesObject["dark"] } });
-      }
-      themeOrder_default.forEach((themeName) => {
-        if (themesObject[themeName]) {
-          applyTheme(themeName, []);
-        }
-      });
-    } else if (themes) {
-      const themeArray = Array.isArray(themes) ? themes : [themes];
-      if (themeArray.length === 1 && themeArray[0].includes("--default")) {
-        const [themeName, ...flags] = themeArray[0].split(" ");
-        applyTheme(themeName, flags);
         return { include, exclude, prefix };
-      }
-      themeArray.forEach((themeOption) => {
-        const [themeName, ...flags] = themeOption.split(" ");
-        if (flags.includes("--default")) {
-          applyTheme(themeName, ["--default"]);
-        }
-      });
-      themeArray.forEach((themeOption) => {
-        const [themeName, ...flags] = themeOption.split(" ");
-        if (flags.includes("--prefersdark")) {
-          addBase({ "@media (prefers-color-scheme: dark)": { [root]: themesObject[themeName] } });
-        }
-      });
-      themeArray.forEach((themeOption) => {
-        const [themeName] = themeOption.split(" ");
-        applyTheme(themeName, []);
-      });
-    }
-    return { include, exclude, prefix };
-  };
+    };
 })();
 
 // packages/daisyui/functions/plugin.js
 var plugin = {
-  withOptions: (pluginFunction, configFunction = () => ({})) => {
-    const optionsFunction = (options) => {
-      const handler = pluginFunction(options);
-      const config = configFunction(options);
-      return { handler, config };
-    };
-    optionsFunction.__isOptionsFunction = true;
-    return optionsFunction;
-  }
+    withOptions: (pluginFunction, configFunction = () => ({})) => {
+        const optionsFunction = (options) => {
+            const handler = pluginFunction(options);
+            const config = configFunction(options);
+            return { handler, config };
+        };
+        optionsFunction.__isOptionsFunction = true;
+        return optionsFunction;
+    }
 };
 
 // packages/daisyui/functions/variables.js
 var variables_default = {
-  colors: {
-    "base-100": "var(--color-base-100)",
-    "base-200": "var(--color-base-200)",
-    "base-300": "var(--color-base-300)",
-    "base-content": "var(--color-base-content)",
-    primary: "var(--color-primary)",
-    "primary-content": "var(--color-primary-content)",
-    secondary: "var(--color-secondary)",
-    "secondary-content": "var(--color-secondary-content)",
-    accent: "var(--color-accent)",
-    "accent-content": "var(--color-accent-content)",
-    neutral: "var(--color-neutral)",
-    "neutral-content": "var(--color-neutral-content)",
-    info: "var(--color-info)",
-    "info-content": "var(--color-info-content)",
-    success: "var(--color-success)",
-    "success-content": "var(--color-success-content)",
-    warning: "var(--color-warning)",
-    "warning-content": "var(--color-warning-content)",
-    error: "var(--color-error)",
-    "error-content": "var(--color-error-content)"
-  },
-  borderRadius: {
-    selector: "var(--radius-selector)",
-    field: "var(--radius-field)",
-    box: "var(--radius-box)"
-  }
+    colors: {
+        "base-100": "var(--color-base-100)",
+        "base-200": "var(--color-base-200)",
+        "base-300": "var(--color-base-300)",
+        "base-content": "var(--color-base-content)",
+        primary: "var(--color-primary)",
+        "primary-content": "var(--color-primary-content)",
+        secondary: "var(--color-secondary)",
+        "secondary-content": "var(--color-secondary-content)",
+        accent: "var(--color-accent)",
+        "accent-content": "var(--color-accent-content)",
+        neutral: "var(--color-neutral)",
+        "neutral-content": "var(--color-neutral-content)",
+        info: "var(--color-info)",
+        "info-content": "var(--color-info-content)",
+        success: "var(--color-success)",
+        "success-content": "var(--color-success-content)",
+        warning: "var(--color-warning)",
+        "warning-content": "var(--color-warning-content)",
+        error: "var(--color-error)",
+        "error-content": "var(--color-error-content)"
+    },
+    borderRadius: {
+        selector: "var(--radius-selector)",
+        field: "var(--radius-field)",
+        box: "var(--radius-box)"
+    }
 };
 
 // packages/daisyui/theme/object.js
@@ -200,124 +205,124 @@ var object_default2 = { ':root:has( .modal-open, .modal[open], .modal:target, .m
 // packages/daisyui/functions/addPrefix.js
 var defaultExcludedPrefixes = ["color-", "size-", "radius-", "border", "depth", "noise"];
 var shouldExcludeVariable = (variableName, excludedPrefixes) => {
-  if (variableName.startsWith("tw")) {
-    return true;
-  }
-  return excludedPrefixes.some((excludedPrefix) => variableName.startsWith(excludedPrefix));
+    if (variableName.startsWith("tw")) {
+        return true;
+    }
+    return excludedPrefixes.some((excludedPrefix) => variableName.startsWith(excludedPrefix));
 };
 var prefixVariable = (variableName, prefix, excludedPrefixes) => {
-  if (shouldExcludeVariable(variableName, excludedPrefixes)) {
-    return variableName;
-  }
-  return `${prefix}${variableName}`;
+    if (shouldExcludeVariable(variableName, excludedPrefixes)) {
+        return variableName;
+    }
+    return `${prefix}${variableName}`;
 };
 var getPrefixedSelector = (selector, prefix) => {
-  if (!selector.startsWith("."))
-    return selector;
-  return `.${prefix}${selector.slice(1)}`;
+    if (!selector.startsWith("."))
+        return selector;
+    return `.${prefix}${selector.slice(1)}`;
 };
 var getPrefixedKey = (key, prefix, excludedPrefixes) => {
-  const prefixAmpDot = prefix ? `&.${prefix}` : "";
-  if (!prefix)
+    const prefixAmpDot = prefix ? `&.${prefix}` : "";
+    if (!prefix)
+        return key;
+    if (key.startsWith("--")) {
+        const variableName = key.slice(2);
+        return `--${prefixVariable(variableName, prefix, excludedPrefixes)}`;
+    }
+    if (key.startsWith("@") || key.startsWith("[")) {
+        return key;
+    }
+    if (key.startsWith("&")) {
+        if (key.match(/:[a-z-]+\(/)) {
+            return key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
+        }
+        if (key.startsWith("&.")) {
+            return `${prefixAmpDot}${key.slice(2)}`;
+        }
+        return key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
+    }
+    if (key.startsWith(":")) {
+        return key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
+    }
+    if (key.includes(".") && !key.includes(" ") && !key.includes(">") && !key.includes("+") && !key.includes("~")) {
+        return key.split(".").filter(Boolean).map((part) => prefix + part).join(".").replace(/^/, ".");
+    }
+    if (key.includes(">") || key.includes("+") || key.includes("~")) {
+        if (key.includes(",")) {
+            return key.split(/\s*,\s*/).map((part) => {
+                return part.replace(/\.([\w-]+)/g, `.${prefix}$1`);
+            }).join(", ");
+        }
+        let processedKey = key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
+        if (processedKey.startsWith(">") || processedKey.startsWith("+") || processedKey.startsWith("~")) {
+            processedKey = ` ${processedKey}`;
+        }
+        return processedKey;
+    }
+    if (key.includes(" ")) {
+        return key.split(/\s+/).map((part) => {
+            if (part.startsWith(".")) {
+                return getPrefixedSelector(part, prefix);
+            }
+            return part;
+        }).join(" ");
+    }
+    if (key.includes(":")) {
+        const [selector, ...pseudo] = key.split(":");
+        if (selector.startsWith(".")) {
+            return `${getPrefixedSelector(selector, prefix)}:${pseudo.join(":")}`;
+        }
+        return key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
+    }
+    if (key.startsWith(".")) {
+        return getPrefixedSelector(key, prefix);
+    }
     return key;
-  if (key.startsWith("--")) {
-    const variableName = key.slice(2);
-    return `--${prefixVariable(variableName, prefix, excludedPrefixes)}`;
-  }
-  if (key.startsWith("@") || key.startsWith("[")) {
-    return key;
-  }
-  if (key.startsWith("&")) {
-    if (key.match(/:[a-z-]+\(/)) {
-      return key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
-    }
-    if (key.startsWith("&.")) {
-      return `${prefixAmpDot}${key.slice(2)}`;
-    }
-    return key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
-  }
-  if (key.startsWith(":")) {
-    return key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
-  }
-  if (key.includes(".") && !key.includes(" ") && !key.includes(">") && !key.includes("+") && !key.includes("~")) {
-    return key.split(".").filter(Boolean).map((part) => prefix + part).join(".").replace(/^/, ".");
-  }
-  if (key.includes(">") || key.includes("+") || key.includes("~")) {
-    if (key.includes(",")) {
-      return key.split(/\s*,\s*/).map((part) => {
-        return part.replace(/\.([\w-]+)/g, `.${prefix}$1`);
-      }).join(", ");
-    }
-    let processedKey = key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
-    if (processedKey.startsWith(">") || processedKey.startsWith("+") || processedKey.startsWith("~")) {
-      processedKey = ` ${processedKey}`;
-    }
-    return processedKey;
-  }
-  if (key.includes(" ")) {
-    return key.split(/\s+/).map((part) => {
-      if (part.startsWith(".")) {
-        return getPrefixedSelector(part, prefix);
-      }
-      return part;
-    }).join(" ");
-  }
-  if (key.includes(":")) {
-    const [selector, ...pseudo] = key.split(":");
-    if (selector.startsWith(".")) {
-      return `${getPrefixedSelector(selector, prefix)}:${pseudo.join(":")}`;
-    }
-    return key.replace(/\.([\w-]+)/g, `.${prefix}$1`);
-  }
-  if (key.startsWith(".")) {
-    return getPrefixedSelector(key, prefix);
-  }
-  return key;
 };
 var processArrayValue = (value, prefix, excludedPrefixes) => {
-  return value.map((item) => {
-    if (typeof item === "string") {
-      if (item.startsWith(".")) {
-        return prefix ? `.${prefix}${item.slice(1)}` : item;
-      }
-      return processStringValue(item, prefix, excludedPrefixes);
-    }
-    return item;
-  });
+    return value.map((item) => {
+        if (typeof item === "string") {
+            if (item.startsWith(".")) {
+                return prefix ? `.${prefix}${item.slice(1)}` : item;
+            }
+            return processStringValue(item, prefix, excludedPrefixes);
+        }
+        return item;
+    });
 };
 var processStringValue = (value, prefix, excludedPrefixes) => {
-  if (prefix === 0)
-    return value;
-  return value.replace(/var\(--([^)]+)\)/g, (match, variableName) => {
-    if (shouldExcludeVariable(variableName, excludedPrefixes)) {
-      return match;
-    }
-    return `var(--${prefix}${variableName})`;
-  });
+    if (prefix === 0)
+        return value;
+    return value.replace(/var\(--([^)]+)\)/g, (match, variableName) => {
+        if (shouldExcludeVariable(variableName, excludedPrefixes)) {
+            return match;
+        }
+        return `var(--${prefix}${variableName})`;
+    });
 };
 var processValue = (value, prefix, excludedPrefixes) => {
-  if (Array.isArray(value)) {
-    return processArrayValue(value, prefix, excludedPrefixes);
-  } else if (typeof value === "object" && value !== null) {
-    return addPrefix(value, prefix, excludedPrefixes);
-  } else if (typeof value === "string") {
-    return processStringValue(value, prefix, excludedPrefixes);
-  } else {
-    return value;
-  }
+    if (Array.isArray(value)) {
+        return processArrayValue(value, prefix, excludedPrefixes);
+    } else if (typeof value === "object" && value !== null) {
+        return addPrefix(value, prefix, excludedPrefixes);
+    } else if (typeof value === "string") {
+        return processStringValue(value, prefix, excludedPrefixes);
+    } else {
+        return value;
+    }
 };
 var addPrefix = (obj, prefix, excludedPrefixes = defaultExcludedPrefixes) => {
-  return Object.entries(obj).reduce((result, [key, value]) => {
-    const newKey = getPrefixedKey(key, prefix, excludedPrefixes);
-    result[newKey] = processValue(value, prefix, excludedPrefixes);
-    return result;
-  }, {});
+    return Object.entries(obj).reduce((result, [key, value]) => {
+        const newKey = getPrefixedKey(key, prefix, excludedPrefixes);
+        result[newKey] = processValue(value, prefix, excludedPrefixes);
+        return result;
+    }, {});
 };
 
 // packages/daisyui/base/rootscrolllock/index.js
 var rootscrolllock_default = ({ addBase, prefix = "" }) => {
-  const prefixedrootscrolllock = addPrefix(object_default2, prefix);
-  addBase({ ...prefixedrootscrolllock });
+    const prefixedrootscrolllock = addPrefix(object_default2, prefix);
+    addBase({...prefixedrootscrolllock });
 };
 
 // packages/daisyui/base/rootcolor/object.js
@@ -325,8 +330,8 @@ var object_default3 = { ":root, [data-theme]": { "background-color": "var(--root
 
 // packages/daisyui/base/rootcolor/index.js
 var rootcolor_default = ({ addBase, prefix = "" }) => {
-  const prefixedrootcolor = addPrefix(object_default3, prefix);
-  addBase({ ...prefixedrootcolor });
+    const prefixedrootcolor = addPrefix(object_default3, prefix);
+    addBase({...prefixedrootcolor });
 };
 
 // packages/daisyui/base/scrollbar/object.js
@@ -334,8 +339,8 @@ var object_default4 = { ":root": { "scrollbar-color": "color-mix(in oklch, curre
 
 // packages/daisyui/base/scrollbar/index.js
 var scrollbar_default = ({ addBase, prefix = "" }) => {
-  const prefixedscrollbar = addPrefix(object_default4, prefix);
-  addBase({ ...prefixedscrollbar });
+    const prefixedscrollbar = addPrefix(object_default4, prefix);
+    addBase({...prefixedscrollbar });
 };
 
 // packages/daisyui/base/properties/object.js
@@ -343,8 +348,8 @@ var object_default5 = { "@property --radialprogress": { syntax: '"<percentage>"'
 
 // packages/daisyui/base/properties/index.js
 var properties_default = ({ addBase, prefix = "" }) => {
-  const prefixedproperties = addPrefix(object_default5, prefix);
-  addBase({ ...prefixedproperties });
+    const prefixedproperties = addPrefix(object_default5, prefix);
+    addBase({...prefixedproperties });
 };
 
 // packages/daisyui/base/rootscrollgutter/object.js
@@ -352,8 +357,8 @@ var object_default6 = { ":where( :root:has( .modal-open, .modal[open], .modal:ta
 
 // packages/daisyui/base/rootscrollgutter/index.js
 var rootscrollgutter_default = ({ addBase, prefix = "" }) => {
-  const prefixedrootscrollgutter = addPrefix(object_default6, prefix);
-  addBase({ ...prefixedrootscrollgutter });
+    const prefixedrootscrollgutter = addPrefix(object_default6, prefix);
+    addBase({...prefixedrootscrollgutter });
 };
 
 // packages/daisyui/base/svg/object.js
@@ -361,8 +366,8 @@ var object_default7 = { ":root": { "--fx-noise": `url("data:image/svg+xml,%3Csvg
 
 // packages/daisyui/base/svg/index.js
 var svg_default = ({ addBase, prefix = "" }) => {
-  const prefixedsvg = addPrefix(object_default7, prefix);
-  addBase({ ...prefixedsvg });
+    const prefixedsvg = addPrefix(object_default7, prefix);
+    addBase({...prefixedsvg });
 };
 
 // packages/daisyui/components/drawer/object.js
@@ -370,8 +375,8 @@ var object_default8 = { ".drawer": { position: "relative", display: "grid", widt
 
 // packages/daisyui/components/drawer/index.js
 var drawer_default = ({ addComponents, prefix = "" }) => {
-  const prefixeddrawer = addPrefix(object_default8, prefix);
-  addComponents({ ...prefixeddrawer });
+    const prefixeddrawer = addPrefix(object_default8, prefix);
+    addComponents({...prefixeddrawer });
 };
 
 // packages/daisyui/components/link/object.js
@@ -379,8 +384,8 @@ var object_default9 = { ".link": { cursor: "pointer", "text-decoration-line": "u
 
 // packages/daisyui/components/link/index.js
 var link_default = ({ addComponents, prefix = "" }) => {
-  const prefixedlink = addPrefix(object_default9, prefix);
-  addComponents({ ...prefixedlink });
+    const prefixedlink = addPrefix(object_default9, prefix);
+    addComponents({...prefixedlink });
 };
 
 // packages/daisyui/components/stat/object.js
@@ -388,8 +393,8 @@ var object_default10 = { ".stats": { position: "relative", display: "inline-grid
 
 // packages/daisyui/components/stat/index.js
 var stat_default = ({ addComponents, prefix = "" }) => {
-  const prefixedstat = addPrefix(object_default10, prefix);
-  addComponents({ ...prefixedstat });
+    const prefixedstat = addPrefix(object_default10, prefix);
+    addComponents({...prefixedstat });
 };
 
 // packages/daisyui/components/carousel/object.js
@@ -397,8 +402,8 @@ var object_default11 = { ".carousel": { display: "inline-flex", "overflow-x": "s
 
 // packages/daisyui/components/carousel/index.js
 var carousel_default = ({ addComponents, prefix = "" }) => {
-  const prefixedcarousel = addPrefix(object_default11, prefix);
-  addComponents({ ...prefixedcarousel });
+    const prefixedcarousel = addPrefix(object_default11, prefix);
+    addComponents({...prefixedcarousel });
 };
 
 // packages/daisyui/components/divider/object.js
@@ -406,8 +411,8 @@ var object_default12 = { ".divider": { display: "flex", height: "calc(0.25rem * 
 
 // packages/daisyui/components/divider/index.js
 var divider_default = ({ addComponents, prefix = "" }) => {
-  const prefixeddivider = addPrefix(object_default12, prefix);
-  addComponents({ ...prefixeddivider });
+    const prefixeddivider = addPrefix(object_default12, prefix);
+    addComponents({...prefixeddivider });
 };
 
 // packages/daisyui/components/mask/object.js
@@ -415,8 +420,8 @@ var object_default13 = { ".mask": { display: "inline-block", "vertical-align": "
 
 // packages/daisyui/components/mask/index.js
 var mask_default = ({ addComponents, prefix = "" }) => {
-  const prefixedmask = addPrefix(object_default13, prefix);
-  addComponents({ ...prefixedmask });
+    const prefixedmask = addPrefix(object_default13, prefix);
+    addComponents({...prefixedmask });
 };
 
 // packages/daisyui/components/fieldset/object.js
@@ -424,8 +429,8 @@ var object_default14 = { ".fieldset": { display: "grid", gap: "calc(0.25rem * 1.
 
 // packages/daisyui/components/fieldset/index.js
 var fieldset_default = ({ addComponents, prefix = "" }) => {
-  const prefixedfieldset = addPrefix(object_default14, prefix);
-  addComponents({ ...prefixedfieldset });
+    const prefixedfieldset = addPrefix(object_default14, prefix);
+    addComponents({...prefixedfieldset });
 };
 
 // packages/daisyui/components/dropdown/object.js
@@ -433,8 +438,8 @@ var object_default15 = { ".dropdown": { position: "relative", display: "inline-b
 
 // packages/daisyui/components/dropdown/index.js
 var dropdown_default = ({ addComponents, prefix = "" }) => {
-  const prefixeddropdown = addPrefix(object_default15, prefix);
-  addComponents({ ...prefixeddropdown });
+    const prefixeddropdown = addPrefix(object_default15, prefix);
+    addComponents({...prefixeddropdown });
 };
 
 // packages/daisyui/components/card/object.js
@@ -442,8 +447,8 @@ var object_default16 = { ".card": { position: "relative", display: "flex", "flex
 
 // packages/daisyui/components/card/index.js
 var card_default = ({ addComponents, prefix = "" }) => {
-  const prefixedcard = addPrefix(object_default16, prefix);
-  addComponents({ ...prefixedcard });
+    const prefixedcard = addPrefix(object_default16, prefix);
+    addComponents({...prefixedcard });
 };
 
 // packages/daisyui/components/steps/object.js
@@ -451,8 +456,8 @@ var object_default17 = { ".steps": { display: "inline-grid", "grid-auto-flow": "
 
 // packages/daisyui/components/steps/index.js
 var steps_default = ({ addComponents, prefix = "" }) => {
-  const prefixedsteps = addPrefix(object_default17, prefix);
-  addComponents({ ...prefixedsteps });
+    const prefixedsteps = addPrefix(object_default17, prefix);
+    addComponents({...prefixedsteps });
 };
 
 // packages/daisyui/components/alert/object.js
@@ -460,8 +465,8 @@ var object_default18 = { ".alert": { display: "grid", "align-items": "center", g
 
 // packages/daisyui/components/alert/index.js
 var alert_default = ({ addComponents, prefix = "" }) => {
-  const prefixedalert = addPrefix(object_default18, prefix);
-  addComponents({ ...prefixedalert });
+    const prefixedalert = addPrefix(object_default18, prefix);
+    addComponents({...prefixedalert });
 };
 
 // packages/daisyui/components/kbd/object.js
@@ -469,8 +474,8 @@ var object_default19 = { ".kbd": { display: "inline-flex", "align-items": "cente
 
 // packages/daisyui/components/kbd/index.js
 var kbd_default = ({ addComponents, prefix = "" }) => {
-  const prefixedkbd = addPrefix(object_default19, prefix);
-  addComponents({ ...prefixedkbd });
+    const prefixedkbd = addPrefix(object_default19, prefix);
+    addComponents({...prefixedkbd });
 };
 
 // packages/daisyui/components/select/object.js
@@ -478,8 +483,8 @@ var object_default20 = { ".select": { border: "var(--border) solid #0000", posit
 
 // packages/daisyui/components/select/index.js
 var select_default = ({ addComponents, prefix = "" }) => {
-  const prefixedselect = addPrefix(object_default20, prefix);
-  addComponents({ ...prefixedselect });
+    const prefixedselect = addPrefix(object_default20, prefix);
+    addComponents({...prefixedselect });
 };
 
 // packages/daisyui/components/progress/object.js
@@ -487,8 +492,8 @@ var object_default21 = { ".progress": { position: "relative", height: "calc(0.25
 
 // packages/daisyui/components/progress/index.js
 var progress_default = ({ addComponents, prefix = "" }) => {
-  const prefixedprogress = addPrefix(object_default21, prefix);
-  addComponents({ ...prefixedprogress });
+    const prefixedprogress = addPrefix(object_default21, prefix);
+    addComponents({...prefixedprogress });
 };
 
 // packages/daisyui/components/fileinput/object.js
@@ -497,8 +502,8 @@ var object_default22 = { ".file-input": { cursor: ["pointer", "pointer"], border
 
 // packages/daisyui/components/fileinput/index.js
 var fileinput_default = ({ addComponents, prefix = "" }) => {
-  const prefixedfileinput = addPrefix(object_default22, prefix);
-  addComponents({ ...prefixedfileinput });
+    const prefixedfileinput = addPrefix(object_default22, prefix);
+    addComponents({...prefixedfileinput });
 };
 
 // packages/daisyui/components/modal/object.js
@@ -506,8 +511,8 @@ var object_default23 = { ".modal": { "pointer-events": "none", visibility: "hidd
 
 // packages/daisyui/components/modal/index.js
 var modal_default = ({ addComponents, prefix = "" }) => {
-  const prefixedmodal = addPrefix(object_default23, prefix);
-  addComponents({ ...prefixedmodal });
+    const prefixedmodal = addPrefix(object_default23, prefix);
+    addComponents({...prefixedmodal });
 };
 
 // packages/daisyui/components/footer/object.js
@@ -515,8 +520,8 @@ var object_default24 = { ".footer": { display: "grid", width: "100%", "grid-auto
 
 // packages/daisyui/components/footer/index.js
 var footer_default = ({ addComponents, prefix = "" }) => {
-  const prefixedfooter = addPrefix(object_default24, prefix);
-  addComponents({ ...prefixedfooter });
+    const prefixedfooter = addPrefix(object_default24, prefix);
+    addComponents({...prefixedfooter });
 };
 
 // packages/daisyui/components/table/object.js
@@ -524,8 +529,8 @@ var object_default25 = { ".table": { "font-size": "0.875rem", position: "relativ
 
 // packages/daisyui/components/table/index.js
 var table_default = ({ addComponents, prefix = "" }) => {
-  const prefixedtable = addPrefix(object_default25, prefix);
-  addComponents({ ...prefixedtable });
+    const prefixedtable = addPrefix(object_default25, prefix);
+    addComponents({...prefixedtable });
 };
 
 // packages/daisyui/components/avatar/object.js
@@ -533,8 +538,8 @@ var object_default26 = { ".avatar-group": { display: "flex", overflow: "hidden",
 
 // packages/daisyui/components/avatar/index.js
 var avatar_default = ({ addComponents, prefix = "" }) => {
-  const prefixedavatar = addPrefix(object_default26, prefix);
-  addComponents({ ...prefixedavatar });
+    const prefixedavatar = addPrefix(object_default26, prefix);
+    addComponents({...prefixedavatar });
 };
 
 // packages/daisyui/components/input/object.js
@@ -542,8 +547,8 @@ var object_default27 = { ".input": { cursor: "text", border: "var(--border) soli
 
 // packages/daisyui/components/input/index.js
 var input_default = ({ addComponents, prefix = "" }) => {
-  const prefixedinput = addPrefix(object_default27, prefix);
-  addComponents({ ...prefixedinput });
+    const prefixedinput = addPrefix(object_default27, prefix);
+    addComponents({...prefixedinput });
 };
 
 // packages/daisyui/components/checkbox/object.js
@@ -551,8 +556,8 @@ var object_default28 = { ".checkbox": { border: "var(--border) solid var(--input
 
 // packages/daisyui/components/checkbox/index.js
 var checkbox_default = ({ addComponents, prefix = "" }) => {
-  const prefixedcheckbox = addPrefix(object_default28, prefix);
-  addComponents({ ...prefixedcheckbox });
+    const prefixedcheckbox = addPrefix(object_default28, prefix);
+    addComponents({...prefixedcheckbox });
 };
 
 // packages/daisyui/components/badge/object.js
@@ -560,8 +565,8 @@ var object_default29 = { ".badge": { display: "inline-flex", "align-items": "cen
 
 // packages/daisyui/components/badge/index.js
 var badge_default = ({ addComponents, prefix = "" }) => {
-  const prefixedbadge = addPrefix(object_default29, prefix);
-  addComponents({ ...prefixedbadge });
+    const prefixedbadge = addPrefix(object_default29, prefix);
+    addComponents({...prefixedbadge });
 };
 
 // packages/daisyui/components/status/object.js
@@ -569,8 +574,8 @@ var object_default30 = { ".status": { display: "inline-block", "aspect-ratio": "
 
 // packages/daisyui/components/status/index.js
 var status_default = ({ addComponents, prefix = "" }) => {
-  const prefixedstatus = addPrefix(object_default30, prefix);
-  addComponents({ ...prefixedstatus });
+    const prefixedstatus = addPrefix(object_default30, prefix);
+    addComponents({...prefixedstatus });
 };
 
 // packages/daisyui/components/diff/object.js
@@ -578,8 +583,8 @@ var object_default31 = { ".diff": { position: "relative", display: "grid", width
 
 // packages/daisyui/components/diff/index.js
 var diff_default = ({ addComponents, prefix = "" }) => {
-  const prefixeddiff = addPrefix(object_default31, prefix);
-  addComponents({ ...prefixeddiff });
+    const prefixeddiff = addPrefix(object_default31, prefix);
+    addComponents({...prefixeddiff });
 };
 
 // packages/daisyui/components/hero/object.js
@@ -587,8 +592,8 @@ var object_default32 = { ".hero": { display: "grid", width: "100%", "place-items
 
 // packages/daisyui/components/hero/index.js
 var hero_default = ({ addComponents, prefix = "" }) => {
-  const prefixedhero = addPrefix(object_default32, prefix);
-  addComponents({ ...prefixedhero });
+    const prefixedhero = addPrefix(object_default32, prefix);
+    addComponents({...prefixedhero });
 };
 
 // packages/daisyui/components/toggle/object.js
@@ -598,8 +603,8 @@ var object_default33 = { ".toggle": { border: "var(--border) solid currentColor"
 
 // packages/daisyui/components/toggle/index.js
 var toggle_default = ({ addComponents, prefix = "" }) => {
-  const prefixedtoggle = addPrefix(object_default33, prefix);
-  addComponents({ ...prefixedtoggle });
+    const prefixedtoggle = addPrefix(object_default33, prefix);
+    addComponents({...prefixedtoggle });
 };
 
 // packages/daisyui/components/stack/object.js
@@ -607,8 +612,8 @@ var object_default34 = { ".stack": { display: "inline-grid", "grid-template-colu
 
 // packages/daisyui/components/stack/index.js
 var stack_default = ({ addComponents, prefix = "" }) => {
-  const prefixedstack = addPrefix(object_default34, prefix);
-  addComponents({ ...prefixedstack });
+    const prefixedstack = addPrefix(object_default34, prefix);
+    addComponents({...prefixedstack });
 };
 
 // packages/daisyui/components/navbar/object.js
@@ -616,8 +621,8 @@ var object_default35 = { ".navbar": { display: "flex", width: "100%", "align-ite
 
 // packages/daisyui/components/navbar/index.js
 var navbar_default = ({ addComponents, prefix = "" }) => {
-  const prefixednavbar = addPrefix(object_default35, prefix);
-  addComponents({ ...prefixednavbar });
+    const prefixednavbar = addPrefix(object_default35, prefix);
+    addComponents({...prefixednavbar });
 };
 
 // packages/daisyui/components/label/object.js
@@ -625,8 +630,8 @@ var object_default36 = { ".label": { display: "inline-flex", "align-items": "cen
 
 // packages/daisyui/components/label/index.js
 var label_default = ({ addComponents, prefix = "" }) => {
-  const prefixedlabel = addPrefix(object_default36, prefix);
-  addComponents({ ...prefixedlabel });
+    const prefixedlabel = addPrefix(object_default36, prefix);
+    addComponents({...prefixedlabel });
 };
 
 // packages/daisyui/components/menu/object.js
@@ -634,8 +639,8 @@ var object_default37 = { ".menu": { display: "flex", width: "fit-content", "flex
 
 // packages/daisyui/components/menu/index.js
 var menu_default = ({ addComponents, prefix = "" }) => {
-  const prefixedmenu = addPrefix(object_default37, prefix);
-  addComponents({ ...prefixedmenu });
+    const prefixedmenu = addPrefix(object_default37, prefix);
+    addComponents({...prefixedmenu });
 };
 
 // packages/daisyui/components/toast/object.js
@@ -643,8 +648,8 @@ var object_default38 = { ".toast": { position: "fixed", "inset-inline-start": "a
 
 // packages/daisyui/components/toast/index.js
 var toast_default = ({ addComponents, prefix = "" }) => {
-  const prefixedtoast = addPrefix(object_default38, prefix);
-  addComponents({ ...prefixedtoast });
+    const prefixedtoast = addPrefix(object_default38, prefix);
+    addComponents({...prefixedtoast });
 };
 
 // packages/daisyui/components/button/object.js
@@ -669,8 +674,8 @@ var object_default39 = { ":where(.btn)": { width: "unset" }, ".btn": { display: 
 
 // packages/daisyui/components/button/index.js
 var button_default = ({ addComponents, prefix = "" }) => {
-  const prefixedbutton = addPrefix(object_default39, prefix);
-  addComponents({ ...prefixedbutton });
+    const prefixedbutton = addPrefix(object_default39, prefix);
+    addComponents({...prefixedbutton });
 };
 
 // packages/daisyui/components/list/object.js
@@ -679,8 +684,8 @@ var object_default40 = { ".list": { display: "flex", "flex-direction": "column",
 
 // packages/daisyui/components/list/index.js
 var list_default = ({ addComponents, prefix = "" }) => {
-  const prefixedlist = addPrefix(object_default40, prefix);
-  addComponents({ ...prefixedlist });
+    const prefixedlist = addPrefix(object_default40, prefix);
+    addComponents({...prefixedlist });
 };
 
 // packages/daisyui/components/mockup/object.js
@@ -688,8 +693,8 @@ var object_default41 = { ".mockup-code": { position: "relative", overflow: "hidd
 
 // packages/daisyui/components/mockup/index.js
 var mockup_default = ({ addComponents, prefix = "" }) => {
-  const prefixedmockup = addPrefix(object_default41, prefix);
-  addComponents({ ...prefixedmockup });
+    const prefixedmockup = addPrefix(object_default41, prefix);
+    addComponents({...prefixedmockup });
 };
 
 // packages/daisyui/components/calendar/object.js
@@ -697,8 +702,8 @@ var object_default42 = { ".cally": { "font-size": "0.7rem", "&::part(container)"
 
 // packages/daisyui/components/calendar/index.js
 var calendar_default = ({ addComponents, prefix = "" }) => {
-  const prefixedcalendar = addPrefix(object_default42, prefix);
-  addComponents({ ...prefixedcalendar });
+    const prefixedcalendar = addPrefix(object_default42, prefix);
+    addComponents({...prefixedcalendar });
 };
 
 // packages/daisyui/components/indicator/object.js
@@ -706,8 +711,8 @@ var object_default43 = { ".indicator": { position: "relative", display: "inline-
 
 // packages/daisyui/components/indicator/index.js
 var indicator_default = ({ addComponents, prefix = "" }) => {
-  const prefixedindicator = addPrefix(object_default43, prefix);
-  addComponents({ ...prefixedindicator });
+    const prefixedindicator = addPrefix(object_default43, prefix);
+    addComponents({...prefixedindicator });
 };
 
 // packages/daisyui/components/rating/object.js
@@ -715,8 +720,8 @@ var object_default44 = { ".rating": { position: "relative", display: "inline-fle
 
 // packages/daisyui/components/rating/index.js
 var rating_default = ({ addComponents, prefix = "" }) => {
-  const prefixedrating = addPrefix(object_default44, prefix);
-  addComponents({ ...prefixedrating });
+    const prefixedrating = addPrefix(object_default44, prefix);
+    addComponents({...prefixedrating });
 };
 
 // packages/daisyui/components/tab/object.js
@@ -769,8 +774,8 @@ var object_default45 = { ".tabs": { display: "flex", "flex-wrap": "wrap", "--tab
 
 // packages/daisyui/components/tab/index.js
 var tab_default = ({ addComponents, prefix = "" }) => {
-  const prefixedtab = addPrefix(object_default45, prefix);
-  addComponents({ ...prefixedtab });
+    const prefixedtab = addPrefix(object_default45, prefix);
+    addComponents({...prefixedtab });
 };
 
 // packages/daisyui/components/filter/object.js
@@ -778,8 +783,8 @@ var object_default46 = { ".filter": { display: "flex", "flex-wrap": "wrap", 'inp
 
 // packages/daisyui/components/filter/index.js
 var filter_default = ({ addComponents, prefix = "" }) => {
-  const prefixedfilter = addPrefix(object_default46, prefix);
-  addComponents({ ...prefixedfilter });
+    const prefixedfilter = addPrefix(object_default46, prefix);
+    addComponents({...prefixedfilter });
 };
 
 // packages/daisyui/components/chat/object.js
@@ -787,8 +792,8 @@ var object_default47 = { ".chat": { display: "grid", "column-gap": "calc(0.25rem
 
 // packages/daisyui/components/chat/index.js
 var chat_default = ({ addComponents, prefix = "" }) => {
-  const prefixedchat = addPrefix(object_default47, prefix);
-  addComponents({ ...prefixedchat });
+    const prefixedchat = addPrefix(object_default47, prefix);
+    addComponents({...prefixedchat });
 };
 
 // packages/daisyui/components/radialprogress/object.js
@@ -796,8 +801,8 @@ var object_default48 = { ".radial-progress": { position: "relative", display: "i
 
 // packages/daisyui/components/radialprogress/index.js
 var radialprogress_default = ({ addComponents, prefix = "" }) => {
-  const prefixedradialprogress = addPrefix(object_default48, prefix);
-  addComponents({ ...prefixedradialprogress });
+    const prefixedradialprogress = addPrefix(object_default48, prefix);
+    addComponents({...prefixedradialprogress });
 };
 
 // packages/daisyui/components/countdown/object.js
@@ -805,8 +810,8 @@ var object_default49 = { ".countdown": { display: "inline-flex", "&.countdown": 
 
 // packages/daisyui/components/countdown/index.js
 var countdown_default = ({ addComponents, prefix = "" }) => {
-  const prefixedcountdown = addPrefix(object_default49, prefix);
-  addComponents({ ...prefixedcountdown });
+    const prefixedcountdown = addPrefix(object_default49, prefix);
+    addComponents({...prefixedcountdown });
 };
 
 // packages/daisyui/components/tooltip/object.js
@@ -814,8 +819,8 @@ var object_default50 = { ".tooltip": { position: "relative", display: "inline-bl
 
 // packages/daisyui/components/tooltip/index.js
 var tooltip_default = ({ addComponents, prefix = "" }) => {
-  const prefixedtooltip = addPrefix(object_default50, prefix);
-  addComponents({ ...prefixedtooltip });
+    const prefixedtooltip = addPrefix(object_default50, prefix);
+    addComponents({...prefixedtooltip });
 };
 
 // packages/daisyui/components/timeline/object.js
@@ -823,8 +828,8 @@ var object_default51 = { ".timeline": { position: "relative", display: "flex", "
 
 // packages/daisyui/components/timeline/index.js
 var timeline_default = ({ addComponents, prefix = "" }) => {
-  const prefixedtimeline = addPrefix(object_default51, prefix);
-  addComponents({ ...prefixedtimeline });
+    const prefixedtimeline = addPrefix(object_default51, prefix);
+    addComponents({...prefixedtimeline });
 };
 
 // packages/daisyui/components/textarea/object.js
@@ -832,8 +837,8 @@ var object_default52 = { ".textarea": { border: "var(--border) solid #0000", "mi
 
 // packages/daisyui/components/textarea/index.js
 var textarea_default = ({ addComponents, prefix = "" }) => {
-  const prefixedtextarea = addPrefix(object_default52, prefix);
-  addComponents({ ...prefixedtextarea });
+    const prefixedtextarea = addPrefix(object_default52, prefix);
+    addComponents({...prefixedtextarea });
 };
 
 // packages/daisyui/components/range/object.js
@@ -843,8 +848,8 @@ var object_default53 = { ".range": { appearance: "none", "webkit-appearance": "n
 
 // packages/daisyui/components/range/index.js
 var range_default = ({ addComponents, prefix = "" }) => {
-  const prefixedrange = addPrefix(object_default53, prefix);
-  addComponents({ ...prefixedrange });
+    const prefixedrange = addPrefix(object_default53, prefix);
+    addComponents({...prefixedrange });
 };
 
 // packages/daisyui/components/dock/object.js
@@ -852,8 +857,8 @@ var object_default54 = { ".dock": { position: "fixed", right: "calc(0.25rem * 0)
 
 // packages/daisyui/components/dock/index.js
 var dock_default = ({ addComponents, prefix = "" }) => {
-  const prefixeddock = addPrefix(object_default54, prefix);
-  addComponents({ ...prefixeddock });
+    const prefixeddock = addPrefix(object_default54, prefix);
+    addComponents({...prefixeddock });
 };
 
 // packages/daisyui/components/breadcrumbs/object.js
@@ -861,8 +866,8 @@ var object_default55 = { ".breadcrumbs": { "max-width": "100%", "overflow-x": "a
 
 // packages/daisyui/components/breadcrumbs/index.js
 var breadcrumbs_default = ({ addComponents, prefix = "" }) => {
-  const prefixedbreadcrumbs = addPrefix(object_default55, prefix);
-  addComponents({ ...prefixedbreadcrumbs });
+    const prefixedbreadcrumbs = addPrefix(object_default55, prefix);
+    addComponents({...prefixedbreadcrumbs });
 };
 
 // packages/daisyui/components/radio/object.js
@@ -870,8 +875,8 @@ var object_default56 = { ".radio": { position: "relative", "flex-shrink": 0, cur
 
 // packages/daisyui/components/radio/index.js
 var radio_default = ({ addComponents, prefix = "" }) => {
-  const prefixedradio = addPrefix(object_default56, prefix);
-  addComponents({ ...prefixedradio });
+    const prefixedradio = addPrefix(object_default56, prefix);
+    addComponents({...prefixedradio });
 };
 
 // packages/daisyui/components/skeleton/object.js
@@ -879,8 +884,8 @@ var object_default57 = { ".skeleton": { "border-radius": "var(--radius-box)", "b
 
 // packages/daisyui/components/skeleton/index.js
 var skeleton_default = ({ addComponents, prefix = "" }) => {
-  const prefixedskeleton = addPrefix(object_default57, prefix);
-  addComponents({ ...prefixedskeleton });
+    const prefixedskeleton = addPrefix(object_default57, prefix);
+    addComponents({...prefixedskeleton });
 };
 
 // packages/daisyui/components/loading/object.js
@@ -888,8 +893,8 @@ var object_default58 = { ".loading": { "pointer-events": "none", display: "inlin
 
 // packages/daisyui/components/loading/index.js
 var loading_default = ({ addComponents, prefix = "" }) => {
-  const prefixedloading = addPrefix(object_default58, prefix);
-  addComponents({ ...prefixedloading });
+    const prefixedloading = addPrefix(object_default58, prefix);
+    addComponents({...prefixedloading });
 };
 
 // packages/daisyui/components/validator/object.js
@@ -897,8 +902,8 @@ var object_default59 = { ".validator": { "&:user-valid, &:has(:user-valid)": { '
 
 // packages/daisyui/components/validator/index.js
 var validator_default = ({ addComponents, prefix = "" }) => {
-  const prefixedvalidator = addPrefix(object_default59, prefix);
-  addComponents({ ...prefixedvalidator });
+    const prefixedvalidator = addPrefix(object_default59, prefix);
+    addComponents({...prefixedvalidator });
 };
 
 // packages/daisyui/components/collapse/object.js
@@ -906,8 +911,8 @@ var object_default60 = { ".collapse:not(td, tr, colgroup)": { visibility: "visib
 
 // packages/daisyui/components/collapse/index.js
 var collapse_default = ({ addComponents, prefix = "" }) => {
-  const prefixedcollapse = addPrefix(object_default60, prefix);
-  addComponents({ ...prefixedcollapse });
+    const prefixedcollapse = addPrefix(object_default60, prefix);
+    addComponents({...prefixedcollapse });
 };
 
 // packages/daisyui/components/swap/object.js
@@ -915,8 +920,8 @@ var object_default61 = { ".swap": { position: "relative", display: "inline-grid"
 
 // packages/daisyui/components/swap/index.js
 var swap_default = ({ addComponents, prefix = "" }) => {
-  const prefixedswap = addPrefix(object_default61, prefix);
-  addComponents({ ...prefixedswap });
+    const prefixedswap = addPrefix(object_default61, prefix);
+    addComponents({...prefixedswap });
 };
 
 // packages/daisyui/utilities/typography/object.js
@@ -924,8 +929,8 @@ var object_default62 = { ":root .prose": { "--tw-prose-body": "color-mix(in okla
 
 // packages/daisyui/utilities/typography/index.js
 var typography_default = ({ addUtilities, prefix = "" }) => {
-  const prefixedtypography = addPrefix(object_default62, prefix);
-  addUtilities({ ...prefixedtypography });
+    const prefixedtypography = addPrefix(object_default62, prefix);
+    addUtilities({...prefixedtypography });
 };
 
 // packages/daisyui/utilities/glass/object.js
@@ -933,8 +938,8 @@ var object_default63 = { ".glass": { border: "none", "backdrop-filter": "blur(va
 
 // packages/daisyui/utilities/glass/index.js
 var glass_default = ({ addUtilities, prefix = "" }) => {
-  const prefixedglass = addPrefix(object_default63, prefix);
-  addUtilities({ ...prefixedglass });
+    const prefixedglass = addPrefix(object_default63, prefix);
+    addUtilities({...prefixedglass });
 };
 
 // packages/daisyui/utilities/join/object.js
@@ -942,8 +947,8 @@ var object_default64 = { ".join": { display: "inline-flex", "align-items": "stre
 
 // packages/daisyui/utilities/join/index.js
 var join_default = ({ addUtilities, prefix = "" }) => {
-  const prefixedjoin = addPrefix(object_default64, prefix);
-  addUtilities({ ...prefixedjoin });
+    const prefixedjoin = addPrefix(object_default64, prefix);
+    addUtilities({...prefixedjoin });
 };
 
 // packages/daisyui/utilities/radius/object.js
@@ -951,8 +956,8 @@ var object_default65 = { ".rounded-box": { "border-radius": "var(--radius-box)" 
 
 // packages/daisyui/utilities/radius/index.js
 var radius_default = ({ addUtilities, prefix = "" }) => {
-  const prefixedradius = addPrefix(object_default65, prefix);
-  addUtilities({ ...prefixedradius });
+    const prefixedradius = addPrefix(object_default65, prefix);
+    addUtilities({...prefixedradius });
 };
 
 // packages/daisyui/imports.js
@@ -963,44 +968,44 @@ var utilities = { typography: typography_default, glass: glass_default, join: jo
 // packages/daisyui/index.js
 var version = "5.0.35";
 var daisyui_default = plugin.withOptions((options) => {
-  return ({ addBase, addComponents, addUtilities }) => {
-    const {
-      include,
-      exclude,
-      prefix = ""
-    } = pluginOptionsHandler(options, addBase, object_default, version);
-    const shouldIncludeItem = (name) => {
-      if (include && exclude) {
-        return include.includes(name) && !exclude.includes(name);
-      }
-      if (include) {
-        return include.includes(name);
-      }
-      if (exclude) {
-        return !exclude.includes(name);
-      }
-      return true;
+    return ({ addBase, addComponents, addUtilities }) => {
+        const {
+            include,
+            exclude,
+            prefix = ""
+        } = pluginOptionsHandler(options, addBase, object_default, version);
+        const shouldIncludeItem = (name) => {
+            if (include && exclude) {
+                return include.includes(name) && !exclude.includes(name);
+            }
+            if (include) {
+                return include.includes(name);
+            }
+            if (exclude) {
+                return !exclude.includes(name);
+            }
+            return true;
+        };
+        Object.entries(base).forEach(([name, item]) => {
+            if (!shouldIncludeItem(name))
+                return;
+            item({ addBase, prefix });
+        });
+        Object.entries(components).forEach(([name, item]) => {
+            if (!shouldIncludeItem(name))
+                return;
+            item({ addComponents, prefix });
+        });
+        Object.entries(utilities).forEach(([name, item]) => {
+            if (!shouldIncludeItem(name))
+                return;
+            item({ addUtilities, prefix });
+        });
     };
-    Object.entries(base).forEach(([name, item]) => {
-      if (!shouldIncludeItem(name))
-        return;
-      item({ addBase, prefix });
-    });
-    Object.entries(components).forEach(([name, item]) => {
-      if (!shouldIncludeItem(name))
-        return;
-      item({ addComponents, prefix });
-    });
-    Object.entries(utilities).forEach(([name, item]) => {
-      if (!shouldIncludeItem(name))
-        return;
-      item({ addUtilities, prefix });
-    });
-  };
 }, () => ({
-  theme: {
-    extend: variables_default
-  }
+    theme: {
+        extend: variables_default
+    }
 }));
 
 
